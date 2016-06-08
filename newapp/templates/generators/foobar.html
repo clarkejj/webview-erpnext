@@ -1,0 +1,64 @@
+{% extends "templates/web.html" %}
+
+<div id="crumbs" style="width:500px; background-color: #da251D;">
+{% block breadcrumbs %}
+    {% include "templates/includes/breadcrumbs.html" %}
+{% endblock %}
+</div>
+
+{% block content %}
+<ul>
+	<li><label>Foo Name:</label> {{ doc.foobarid }}</li>
+	<li><label>Foo Desc:</label> {{ doc.foobardesc }}</li>
+	<li><label>Foo Date: </label> {{ doc.get_formatted("foobardate") }}</li>
+	<li>Random Text for Reload Test</li>
+</ul>
+<form role="form" data-web-form="fooform">
+	
+	<input type="hidden" name="web_form" value="fooform">
+	<input type="hidden" name="doctype" value="Foobar">
+	<div class="row">
+		<div class="col-sm-12" style="max-width: 500px;">
+		<div class="form-group">
+			<label for="foobardesc" class="control-label text-muted small">FoobarDesc</label>
+			<input type="text" class="form-control" id="fb-newdesc" data-fieldtype="Data">
+		</div>
+		<div class="form-group">
+			<div class="page-header-actions-block" data-html-block="header-actions">
+			       <button type="submit" class="btn btn-primary btn-sm btn-form-submit">
+			    		Update</button>
+			
+			</div>
+		</div>
+	</div>
+</form>
+
+{% endblock %} 
+
+{% block script %}
+<script>
+frappe.ready(function() {
+	$(".btn-form-submit").on("click", function() {
+
+		var newdesc; 
+		newdesc = $("#fb-newdesc").val();
+
+		frappe.call({
+			type: "POST",
+			btn: $(this),
+			method: "newapp.new_app.doctype.foobar.foobar.update_foobar_desc",
+			args: 
+				{
+					foobar: "{{ name }}", 
+					desc: newdesc
+				},
+			callback: function(r) {
+				if(!r.exc) {
+					location.reload();
+				}
+			}
+		})
+	});
+});
+</script>
+{% endblock %}

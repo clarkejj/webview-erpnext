@@ -1,0 +1,17 @@
+{% block breadcrumbs %}
+    {% include "templates/includes/breadcrumbs.html" %}
+{% endblock %}
+
+{% block content %}
+<ul class="list-unstyled">
+	{% for fbr in foobars %}
+	<a href="/{{ fbr.parent_website_route }}/{{ fbr.page_name }}">
+	
+		<li>
+			{{ fbr.foobarid }}:
+			<span class="text-muted">{{ frappe.format_date(fbr.foobardate) }}: {{ fbr.foobardesc }}</span>
+		</li>
+	</a>
+	{% endfor %}
+</ul>
+{% endblock %}
