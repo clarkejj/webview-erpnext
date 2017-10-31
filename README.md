@@ -27,7 +27,7 @@ newapp
 
 Note that newapp installs and runs from erpnext without any apparent reference links to it from erpnext, as this grep search confirms:
 
-frappe@erpnext:~/frappe-bench$ find . -name *.py | xargs grep 'New App'
+`frappe@erpnext:~/frappe-bench$ find . -name *.py | xargs grep 'New App'
 ./apps/newapp/newapp/hooks.py:app_title = "New App"
 ./apps/newapp/newapp/config/desktop.py:	       "module_name": "New App",
 ./apps/newapp/newapp/config/desktop.py:	       		      	   "label": _("New App")
@@ -58,11 +58,11 @@ frappe@erpnext:~/frappe-bench$ find . -name *.py | xargs grep 'newapp'
 ./apps/newapp/newapp/config/docs.py:# source_link = "https://github.com/[org_name]/newapp"
 ./apps/newapp/newapp/config/docs.py:# docs_base_url = "https://[org_name].github.io/newapp"
 ./apps/newapp/setup.py:		      name='newapp',
-
+`
 
 To add a new Foobar instance (in Setup -> New App -> Foobar) this traceback occurred:
 
-Traceback (most recent call last):
+`Traceback (most recent call last):
   File "/home/frappe/frappe-bench/apps/frappe/frappe/app.py", line 55, in application
     response = frappe.handler.handle()
   File "/home/frappe/frappe-bench/apps/frappe/frappe/handler.py", line 19, in handle
@@ -96,11 +96,12 @@ Traceback (most recent call last):
   File "/home/frappe/frappe-bench/apps/frappe/frappe/website/website_generator.py", line 52, in scrub
     return cleanup_page_name(text).replace('_', '-')
 AttributeError: 'NoneType' object has no attribute 'replace'
+`
 
 Given Foobar's autoname spec Foobar-.#, the Frappe domain works as expected for Foobar as a subclass of Document (ie generates the name Foobar-1 etc) but not for the case of WebsiteGenerator.  This is a design oversight, the workaround is for Foobar to implement autoname() in the controller by calling auto_make().
 
 test_foobar.py includes basic CRUD tests.  When a test is run from the console terminal command line note that the ERPNext GUI View List for Foobar is updated in the case of insert but not update or delete.  Here are example command line tests:
 
-frappe@erpnext:~/frappe-bench/apps/newapp$ bench run-tests --doctype Foobar --test test_create_Foobar
-frappe@erpnext:~/frappe-bench/apps/newapp$ bench run-tests --doctype Foobar --test test_Foobar_autoname_spec
+`frappe@erpnext:~/frappe-bench/apps/newapp$ bench run-tests --doctype Foobar --test test_create_Foobar
+frappe@erpnext:~/frappe-bench/apps/newapp$ bench run-tests --doctype Foobar --test test_Foobar_autoname_spec`
 
